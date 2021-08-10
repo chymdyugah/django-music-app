@@ -1,0 +1,46 @@
+{% extends 'music/base.html' %}
+{% block body %}
+	<div class="container-fluid">
+		{% if all_albums %}
+			<div class="row">
+
+
+				{% for album in all_albums %}
+					<div class="col-sm-4 form-group" >
+						<div class="thumbnail" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+							<a href="{% url 'music:detail' album.id %}">
+								<img src="{{album.album_logo.url}}" style="height:250px; width:100%;">
+							</a>
+							<h1>{{album.album_title}}</h1>
+							<a style="color:black; text-decoration:underline" href="{% url 'music:artist' album.artist_id %}"><h2>{{album.artist}}</h2></a>
+
+
+							<div class="caption">
+								<!--the details-->
+								<a href="{% url 'music:detail' album.id %}" class="btn btn-success">View Details</a>
+								<!--the delete button-->
+								<form method="post" action="{% url 'music:album-delete' album.id %}" style="display:inline">
+									{% csrf_token %}
+									<input type="hidden" name="album-id" value="{{album.id}}">
+									<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-trash"></span> </button>
+								</form>
+								<!--the update button-->
+								<a class="btn btn-default" href="{% url 'music:album-update' album.id %}">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</a>
+
+								<a class="btn btn-default" href="">
+									<span class="glyphicon glyphicon-star {% if album.is_favourite %}active{% endif %}"></span>
+								</a>
+							</div>
+						</div>
+					</div>
+					<!--<a href="{% url 'music:detail' album.id %}">{{album.album_title}}</a>-->
+				{% endfor %}
+			</div>
+		{% else %}
+			<h2>You don't have any album</h2>
+		{% endif %}
+	</div>
+
+{% endblock %}

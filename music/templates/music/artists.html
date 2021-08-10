@@ -1,0 +1,24 @@
+{% extends 'music/base.html' %}
+{% block body %}
+	<div class="container-fluid">
+		{% if all_artists %}
+			<div class="row">
+
+
+				{% for artist in all_artists %}
+					<div class="col-sm-4 form-group" >
+						<div class="thumbnail" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+							<a href="{% url 'music:artist' artist.id %}">
+								<img src="{{artist.picture.url}}" style="height:250px; width:100%;">
+							</a>
+							<h1>{{artist.artist_name}}</h1>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<h2>You don't have any artist</h2>
+		{% endif %}
+	</div>
+
+{% endblock %}
